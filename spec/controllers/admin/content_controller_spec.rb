@@ -435,7 +435,33 @@ describe Admin::ContentController do
       end
     end
   end
-  
+
+  describe 'merge action' do
+    before do
+      @article = Factory(:article)
+      @anotherArticle = Factory(:article)
+    end
+
+    it 'should render template new' do
+      post(
+        :merge,
+        :id => @article.id,
+        'merge_with' => @anotherArticle.id
+        )
+      response.should render_template('new')
+    end
+
+    it 'should destroy the article being merged' do
+      Article.find(@anotherArticle.id).should be nil
+    end
+
+    it 'should merge the indicated article into the first article' do
+      assigns(:article).id.should eq @article.id
+      assigns(:article).body.should eq(@article.body + @anotherArticle.body)
+    end
+
+  end
+
   shared_examples_for 'destroy action' do
 
     it 'should_not destroy article by get' do
