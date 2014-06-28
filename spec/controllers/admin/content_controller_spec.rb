@@ -435,7 +435,7 @@ describe Admin::ContentController do
       end
     end
   end
-
+  
   shared_examples_for 'destroy action' do
 
     it 'should_not destroy article by get' do
