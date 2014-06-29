@@ -40,6 +40,7 @@ class Admin::ContentController < Admin::BaseController
   def merge
     @article = Article.find(params[:id])
     @mergeArticle = Article.find(params[:merge_with])
+    @article.merge(@mergeArticle)
     redirect_to :action => 'edit', :id => @article.id
   end
 

@@ -594,7 +594,7 @@ describe Admin::ContentController do
         end
 
         it 'should destroy the article getting merged in' do
-          Article.find(@anotherArticle.id).should be_nil
+          Article.find_by_id(@anotherArticle.id).should be_nil
         end
 
         it 'should append the body of the second article to the first' do
