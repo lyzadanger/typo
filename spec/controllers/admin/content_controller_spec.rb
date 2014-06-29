@@ -582,22 +582,24 @@ describe Admin::ContentController do
     end
 
     describe 'merge action' do
-      before :each do
-        @article = Factory(:article, :body => 'Foobar')
-        @anotherArticle = Factory(:article, :body => 'Baz')
-        post :merge, 'id' => @article.id, 'merge_with' => @anotherArticle.id
-      end
+      describe 'successful merge' do 
+        before :each do
+          @article = Factory(:article, :body => 'Foobar')
+          @anotherArticle = Factory(:article, :body => 'Baz')
+          post :merge, :id => @article.id, :merge_with => @anotherArticle.id
+        end
 
-      it 'should render template new' do
-        response.should render_template('new')
-      end
+        it 'should redirect to edit' do
+          response.should redirect_to(:action => 'edit', :id => @article.id)
+        end
 
-      it 'should destroy the article getting merged in' do
-        Article.find(@anotherArticle.id).should be_nil
-      end
+        it 'should destroy the article getting merged in' do
+          Article.find(@anotherArticle.id).should be_nil
+        end
 
-      it 'should append the body of the second article to the first' do
-        Article.find(@article.id).body.should eq (@article.body + @anotherArticle.body)
+        it 'should append the body of the second article to the first' do
+          Article.find(@article.id).body.should eq (@article.body + ' ' + @anotherArticle.body)
+        end
       end
 
     end
