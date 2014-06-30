@@ -5,6 +5,15 @@ Given /^the following articles exist$/ do |table|
   end
 end
 
+Given /^the following comments exist for the article "(.*?)"$/ do |title, table|
+  article = Article.find_by_title(title)
+  table.hashes.each do |comment|
+    article.comments.create comment
+  end
+end
+
+
+
 Then /^the article "(.*?)" should have body "(.*?)"$/ do |title, body|
   Article.find_by_title(title).body.should eq body
 end
@@ -20,4 +29,8 @@ end
 
 Then /^the author for "(.*?)" should be "(.*?)"$/ do |title, author|
   Article.find_by_title(title).author.should eq author
+end
+
+Then /^the article "(.*?)" should have "(\d+)" comments$/ do |title, count|
+  Article.find_by_title(title).comments.length.should eq count.to_i
 end

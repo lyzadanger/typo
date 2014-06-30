@@ -614,6 +614,19 @@ describe Admin::ContentController do
         end
       end
 
+      describe 'comment merge' do
+        before do
+          @article = Factory(:article, :body => 'Foobar')
+          @article.comments.create(:body => 'Ding dong', :author => 'Mickey Mouse')
+          @anotherArticle = Factory(:article, :body => 'Baz')
+          @anotherArticle.comments.create(:body => 'Dell', :author => 'Donkey Kong')
+        end
+        it 'should move the comments of the merged-in article to the destination article' do
+          post :merge, :id => @article.id, :merge_with => @anotherArticle.id
+          assigns(:article).comments.length.should eq 2
+        end
+      end
+
     end
 
     describe 'auto_complete_for_article_keywords action' do

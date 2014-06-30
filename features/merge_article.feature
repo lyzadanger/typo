@@ -10,6 +10,14 @@ Feature: Merge Articles
     |   id   | title                | body                            |  author      |
     |    2   | First Merge Article  | I am the first article.         |  L. Dogg     |
     |    3   | Second Merge Article | I am the second article.        |  L. Danger   |
+    And the following comments exist for the article "First Merge Article"
+    | title                | body                            |  author      |
+    | Nice job!            | This is great!                  | Ms. Sunshine |
+    | Neato                | This is superb.                 | Mr. Happy    |
+    And the following comments exist for the article "Second Merge Article"
+    | title                | body                            |  author      |
+    | Nice job!            | This is great!                  | Ms. Sallyfor |
+    | Neato                | This is superb.                 | Mr. Ding     |
 
   Scenario: Successfully merge articles
     Given I am on the edit article page for "First Merge Article"
@@ -18,6 +26,7 @@ Feature: Merge Articles
     Then the article "First Merge Article" should have body "I am the first article. I am the second article."
     And the author for "First Merge Article" should be "L. Dogg"
     And I should see "Hooray! Articles merged successfully"
+    And the article "First Merge Article" should have "4" comments
 
   Scenario: Try to merge the same article to itself
     Given I am on the edit article page for "First Merge Article"

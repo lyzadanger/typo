@@ -75,6 +75,11 @@ class Article < Content
     # Merge mergeArticle into this
     self.body += ' ' + mergeArticle.body
     self.save
+    mergeArticle.comments.each do |comment|
+      comment.article = self
+      comment.save
+    end
+    mergeArticle.reload
     mergeArticle.destroy
     return
   end
