@@ -591,6 +591,7 @@ describe Admin::ContentController do
 
         it 'should redirect to edit' do
           response.should redirect_to(:action => 'edit', :id => @article.id)
+          assigns(:article).id.should be @article.id
         end
 
         it 'should destroy the article getting merged in' do

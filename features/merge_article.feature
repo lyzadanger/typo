@@ -13,6 +13,6 @@ Feature: Merge Articles
 
   Scenario: Successfully merge articles
     Given I am on the edit article page for "First Merge Article"
-    And I fill in "merge_with" with "3"
+    And I fill in "merge_with" with the id for the article "Second Merge Article"
     And I press "Merge"
     Then the article "First Merge Article" should have body "I am the first article. I am the second article."
