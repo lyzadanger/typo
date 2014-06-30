@@ -601,6 +601,17 @@ describe Admin::ContentController do
         it 'should append the body of the second article to the first' do
           Article.find(@article.id).body.should eq (@article.body + ' ' + @anotherArticle.body)
         end
+
+      end
+
+      describe 'sad path: try to merge article with self' do
+        it 'should have an error if user tries to merge an article with itself' do
+          @article = Factory(:article, :body => 'Foobar')
+          @anotherArticle = Factory(:article, :body => 'Baz')
+          post :merge, :id => @article.id, :merge_with => @article.id
+          Article.find(@article.id).body.should eq @article.body
+          Article.find(@anotherArticle.id).should_not be_nil
+        end
       end
 
     end

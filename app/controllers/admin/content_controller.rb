@@ -38,10 +38,15 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def merge
-    @article = Article.find(params[:id])
-    @mergeArticle = Article.find(params[:merge_with])
-    @article.merge(@mergeArticle)
-    redirect_to :action => 'edit', :id => @article.id
+    if params[:id] == params[:merge_with]
+      flash[:error] = _("Alas! You cannot merge an article with itself")
+    else
+      @article = Article.find(params[:id])
+      @mergeArticle = Article.find(params[:merge_with])
+      @article.merge(@mergeArticle)
+      flash[:notice] = _("Hooray! Articles merged successfully")
+    end
+    redirect_to :action => 'edit', :id => params[:id]
   end
 
   def destroy

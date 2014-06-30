@@ -17,3 +17,7 @@ When /^(?:|I )fill in "([^"]*)" with the id for the article "([^"]*)"$/ do |fiel
   value = Article.find_by_title(title).id
   fill_in(field, :with => value)
 end
+
+Then /^the author for "(.*?)" should be "(.*?)"$/ do |title, author|
+  Article.find_by_title(title).author.should eq author
+end
